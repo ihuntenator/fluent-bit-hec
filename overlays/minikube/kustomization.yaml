@@ -1,0 +1,30 @@
+resources:
+- ../../base
+
+patchesStrategicMerge:
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: fluent-bit
+    namespace: logging
+    labels:
+      k8s-app: fluent-bit-logging
+  spec:
+    selector:
+      matchLabels:
+        k8s-app: fluent-bit-logging
+    template:
+      metadata:
+        labels:
+          k8s-app: fluent-bit-logging
+      spec:
+        containers:
+        - name: fluent-bit
+          env:
+          - name: HEC_HOST
+            value: "192.168.1.71"
+          - name: HEC_PORT
+            value: "8088"
+          - name: HEC_TOKEN
+            value: "62873f4b-8833-4fa9-ab20-3e786ccba021"
